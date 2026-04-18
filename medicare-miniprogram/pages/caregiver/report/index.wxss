@@ -1,0 +1,10 @@
+.page { padding: 40rpx 24rpx; background: #FFFFFF; min-height: 100vh; display: flex; flex-direction: column; }
+.hero { text-align: center; padding: 40rpx 0 48rpx; }
+.hero-icon { font-size: 96rpx; display: block; margin-bottom: 16rpx; }
+.hero-title { font-size: 40rpx; font-weight: bold; color: #2E8B57; display: block; margin-bottom: 16rpx; }
+.hero-sub { font-size: 26rpx; color: #888; line-height: 1.6; display: block; }
+.content-list { background: #FAFAFA; border-radius: 16rpx; padding: 24rpx 32rpx; margin-bottom: 40rpx; border: 1rpx solid #E0E0E0; }
+.content-item { display: flex; align-items: center; gap: 16rpx; padding: 16rpx 0; border-bottom: 1rpx solid #f5f5f5; font-size: 28rpx; color: #333; }
+.content-item:last-child { border-bottom: none; }
+.check { color: #4CAF50; font-size: 28rpx; font-weight: bold; }
+.download-btn { background: linear-gradient(135deg, #FFB347 0%, #FF8C42 100%); color: #fff; border-radius: 16rpx; font-size: 32rpx; height: 96rpx; line-height: 96rpx; box-shadow: 0 6rpx 16rpx rgba(255,140,66,0.3); }

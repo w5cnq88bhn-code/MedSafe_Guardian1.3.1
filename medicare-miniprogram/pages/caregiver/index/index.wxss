@@ -1,0 +1,52 @@
+.page { padding: 24rpx; background: #FFFFFF; min-height: 100vh; }
+
+/* 空状态 */
+.caregiver-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 200rpx;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F5 100%);
+}
+.empty-illustration { margin-bottom: 40rpx; }
+.empty-emoji { font-size: 120rpx; display: block; }
+.empty-text { text-align: center; margin-bottom: 60rpx; }
+.empty-title { display: block; font-size: 36rpx; color: #2E8B57; font-weight: 500; margin-bottom: 16rpx; }
+.empty-desc { display: block; font-size: 28rpx; color: #999; }
+.bind-action-btn {
+  width: 400rpx;
+  height: 88rpx;
+  background: linear-gradient(135deg, #FFB347 0%, #FF8C42 100%);
+  color: #fff;
+  font-size: 32rpx;
+  border-radius: 44rpx;
+  margin-bottom: 40rpx;
+  box-shadow: 0 6rpx 20rpx rgba(255,140,66,0.35);
+}
+.btn-content { display: flex; align-items: center; justify-content: center; height: 100%; }
+.btn-icon { margin-right: 12rpx; font-size: 36rpx; font-weight: 300; }
+.help-tip { display: flex; align-items: center; font-size: 26rpx; color: #999; }
+.tip-icon { margin-right: 8rpx; }
+.patient-selector { background: #FAFAFA; border-radius: 16rpx; padding: 24rpx; margin-bottom: 24rpx; border: 1rpx solid #E0E0E0; }
+.selector-row { display: flex; justify-content: space-between; align-items: center; }
+.patient-name { font-size: 34rpx; font-weight: bold; color: #2E8B57; }
+.selector-arrow { font-size: 24rpx; color: #888; }
+.overview-card { background: #FAFAFA; border-radius: 16rpx; padding: 32rpx; display: flex; justify-content: space-around; margin-bottom: 24rpx; border: 1rpx solid #E0E0E0; }
+.overview-item { text-align: center; }
+.ov-num { font-size: 56rpx; font-weight: bold; color: #333; display: block; }
+.ov-label { font-size: 24rpx; color: #888; }
+.overview-item.green .ov-num { color: #4CAF50; }
+.overview-item.red .ov-num { color: #F44336; }
+.overview-item.orange .ov-num { color: #FF9800; }
+.missed-section { background: #FAFAFA; border-radius: 16rpx; padding: 24rpx; margin-bottom: 24rpx; border: 1rpx solid #E0E0E0; }
+.section-title { font-size: 30rpx; font-weight: bold; color: #F44336; display: block; margin-bottom: 16rpx; }
+.missed-item { display: flex; justify-content: space-between; align-items: center; padding: 16rpx 0; border-bottom: 1rpx solid #f5f5f5; }
+.missed-info { flex: 1; }
+.missed-drug { font-size: 28rpx; font-weight: bold; display: block; }
+.missed-time { font-size: 24rpx; color: #888; }
+.remind-btn { background: #F44336; color: #fff; border-radius: 12rpx; font-size: 24rpx; padding: 8rpx 20rpx; }
+.nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16rpx; }
+.nav-item { background: #FAFAFA; border-radius: 16rpx; padding: 32rpx; text-align: center; display: flex; flex-direction: column; align-items: center; border: 1rpx solid #E0E0E0; }
+.nav-icon { font-size: 56rpx; margin-bottom: 12rpx; }
+.nav-label { font-size: 28rpx; color: #333; }

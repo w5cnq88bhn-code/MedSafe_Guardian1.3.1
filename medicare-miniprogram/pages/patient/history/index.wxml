@@ -1,0 +1,102 @@
+<view class="page">
+  <view class="tabs">
+    <view
+      wx:for="{{tabs}}" wx:key="index"
+      class="tab {{activeTab === index ? 'active' : ''}}"
+      data-idx="{{index}}"
+      bindtap="onTabChange"
+    >
+      <text class="tab-icon">{{index === 0 ? '📊' : index === 1 ? '📈' : index === 2 ? '📋' : '📚'}}</text>
+      <text>{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 7天 -->
+  <view wx:if="{{activeTab === 0}}">
+    <view wx:if="{{stats7}}" wx:for="{{stats7.drugs}}" wx:key="drug_id" class="stat-card">
+      <text class="drug-name">{{item.drug_name}}</text>
+      <view class="stat-row">
+        <text class="stat-label">总服用量</text>
+        <text class="stat-val">{{item.total_dose}}{{item.dosage_unit}}</text>
+      </view>
+      <view class="stat-row">
+        <text class="stat-label">漏服次数</text>
+        <text class="stat-val {{item.missed_count > 0 ? 'red' : ''}}">{{item.missed_count}} 次</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 28天 -->
+  <view wx:elif="{{activeTab === 1}}">
+    <view wx:if="{{stats28}}" >
+      <view class="summary-card">
+        <view class="summary-item">
+          <text class="summary-num">{{stats28.total_drug_types}}</text>
+          <text class="summary-label">服用药物种类</text>
+        </view>
+        <view class="summary-item">
+          <text class="summary-num">{{stats28.total_taken_count}}</text>
+          <text class="summary-label">实际服药次数</text>
+        </view>
+      </view>
+      <!-- 每种药物剂量明细，可发现多服/少服 -->
+      <view
+        wx:for="{{stats28.drugs}}" wx:key="drug_id"
+        class="stat-card {{item.dose_diff > 0 ? 'dose-over' : item.dose_diff < 0 ? 'dose-under' : ''}}"
+      >
+        <view style="display:flex;align-items:center;margin-bottom:12rpx;">
+          <text class="drug-name" style="margin-bottom:0;">{{item.drug_name}}</text>
+          <text class="dose-badge {{item.dose_diff > 0 ? 'over' : item.dose_diff < 0 ? 'under' : 'normal'}}">
+            {{item.dose_diff > 0 ? '⚠️ 多服' : item.dose_diff < 0 ? '⚠️ 少服' : '✓ 正常'}}
+          </text>
+        </view>
+        <view class="stat-row">
+          <text class="stat-label">计划总剂量</text>
+          <text class="stat-val">{{item.planned_dose}}{{item.dosage_unit}}</text>
+        </view>
+        <view class="stat-row">
+          <text class="stat-label">实际服用量</text>
+          <text class="stat-val {{item.dose_diff !== 0 ? 'red' : ''}}">{{item.actual_dose}}{{item.dosage_unit}}</text>
+        </view>
+        <view class="stat-row" wx:if="{{item.dose_diff !== 0}}">
+          <text class="stat-label">偏差</text>
+          <text class="stat-val red">{{item.dose_diff > 0 ? '+' : ''}}{{item.dose_diff}}{{item.dosage_unit}}</text>
+        </view>
+        <view class="stat-row">
+          <text class="stat-label">漏服次数</text>
+          <text class="stat-val {{item.missed_count > 0 ? 'red' : ''}}">{{item.missed_count}} 次</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 14天明细 -->
+  <view wx:elif="{{activeTab === 2}}">
+    <view wx:if="{{stats14}}" class="table-wrap">
+      <view class="table-header">
+        <text class="col date">日期</text>
+        <text class="col name">药品</text>
+        <text class="col dose">剂量</text>
+        <text class="col status">状态</text>
+      </view>
+      <view wx:for="{{stats14.records}}" wx:key="index" class="table-row">
+        <text class="col date">{{item.date}}</text>
+        <text class="col name">{{item.drug_name}}</text>
+        <text class="col dose">{{item.dose}}{{item.dosage_unit}}</text>
+        <text class="col status {{item.status}}">
+          <text wx:if="{{item.status === 'taken'}}">✓ 已服</text>
+          <text wx:elif="{{item.status === 'missed'}}">✗ 漏服</text>
+          <text wx:else>-</text>
+        </text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 长期 -->
+  <view wx:elif="{{activeTab === 3}}">
+    <view wx:if="{{lifetime}}" wx:for="{{lifetime.drugs}}" wx:key="drug_id" class="stat-card">
+      <text class="drug-name">{{item.drug_name}}</text>
+      <text class="stat-sub">首次：{{item.first_taken || '—'}}　最近：{{item.last_taken || '—'}}</text>
+    </view>
+  </view>
+</view>
