@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(160deg, #2E8B57 0%, #3CB371 100%);
+  padding: 40rpx;
+}
+.logo {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: 32rpx;
+}
+.logo-placeholder {
+  font-size: 120rpx;
+  margin-bottom: 32rpx;
+  line-height: 1;
+}
+.title {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 16rpx;
+}
+.subtitle {
+  font-size: 28rpx;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 80rpx;
+}
+.login-btn {
+  width: 560rpx;
+  height: 96rpx;
+  border-radius: 48rpx;
+  font-size: 32rpx;
+  background: linear-gradient(135deg, #FFB347 0%, #FFA726 100%);
+  color: #5D4037;
+  box-shadow: 0 4rpx 16rpx rgba(255,179,71,0.4);
+}

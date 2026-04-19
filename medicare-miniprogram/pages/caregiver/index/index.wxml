@@ -1,0 +1,89 @@
+<view class="page">
+  <view wx:if="{{patients.length === 0 && !loading}}" class="caregiver-empty">
+    <!-- 空状态插图 -->
+    <view class="empty-illustration">
+      <text class="empty-emoji">👥</text>
+    </view>
+    <!-- 提示文字 -->
+    <view class="empty-text">
+      <text class="empty-title">您还未绑定任何被监护人</text>
+      <text class="empty-desc">绑定后即可查看用药情况并接收提醒</text>
+    </view>
+    <!-- 操作按钮 -->
+    <button class="bind-action-btn" bindtap="onBindPatient">
+      <view class="btn-content">
+        <text class="btn-icon">+</text>
+        <text>绑定被监护人</text>
+      </view>
+    </button>
+    <!-- 帮助提示 -->
+    <view class="help-tip">
+      <text class="tip-icon">💡</text>
+      <text>需要被监护人在其手机上授权</text>
+    </view>
+  </view>
+
+  <block wx:else>
+    <!-- 患者切换 -->
+    <view class="patient-selector">
+      <picker mode="selector" range="{{patients}}" range-key="name" bindchange="onSwitchPatient">
+        <view class="selector-row">
+          <text class="patient-name">{{currentPatient.name}}</text>
+          <text class="selector-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 今日概览 -->
+    <view wx:if="{{todayStatus}}" class="overview-card">
+      <view class="overview-item">
+        <text class="ov-num">{{todayStatus.total}}</text>
+        <text class="ov-label">今日应服</text>
+      </view>
+      <view class="overview-item green">
+        <text class="ov-num">{{todayStatus.taken}}</text>
+        <text class="ov-label">已完成</text>
+      </view>
+      <view class="overview-item red">
+        <text class="ov-num">{{todayStatus.missed}}</text>
+        <text class="ov-label">已漏服</text>
+      </view>
+      <view class="overview-item orange">
+        <text class="ov-num">{{todayStatus.pending}}</text>
+        <text class="ov-label">待服用</text>
+      </view>
+    </view>
+
+    <!-- 漏服列表 -->
+    <view wx:if="{{todayStatus && todayStatus.missed_list && todayStatus.missed_list.length > 0}}" class="missed-section">
+      <text class="section-title">漏服药物</text>
+      <view wx:for="{{todayStatus.missed_list}}" wx:key="log_id" class="missed-item">
+        <view class="missed-info">
+          <text class="missed-drug">{{item.drug_name}}</text>
+          <text class="missed-time">计划时间：{{item.scheduled_time}}</text>
+        </view>
+        <button class="remind-btn" data-log-id="{{item.log_id}}" bindtap="onRemind">一键提醒</button>
+      </view>
+    </view>
+
+    <!-- 快捷导航 -->
+    <view class="nav-grid">
+      <navigator url="/pages/patient/history/index" open-type="switchTab" class="nav-item">
+        <text class="nav-icon">📊</text>
+        <text class="nav-label">统计</text>
+      </navigator>
+      <navigator url="/pages/caregiver/prediction/index" class="nav-item">
+        <text class="nav-icon">🔮</text>
+        <text class="nav-label">预测</text>
+      </navigator>
+      <navigator url="/pages/caregiver/rules/index" class="nav-item">
+        <text class="nav-icon">💡</text>
+        <text class="nav-label">规则洞察</text>
+      </navigator>
+      <navigator url="/pages/caregiver/report/index" class="nav-item">
+        <text class="nav-icon">📄</text>
+        <text class="nav-label">就诊报告</text>
+      </navigator>
+    </view>
+  </block>
+</view>
