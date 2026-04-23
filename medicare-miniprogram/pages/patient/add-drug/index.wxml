@@ -1,0 +1,120 @@
+<view class="page">
+  <!-- 搜索药物 -->
+  <view class="section">
+    <text class="section-title">搜索药物</text>
+    <view class="search-row">
+      <input class="search-input" placeholder="输入药品名称" bindinput="onKeywordInput" value="{{keyword}}" />
+      <button class="search-btn" bindtap="onSearch">搜索</button>
+    </view>
+    <view wx:if="{{searchResults.length > 0}}" class="search-results">
+      <view
+        wx:for="{{searchResults}}" wx:key="id"
+        class="result-item"
+        data-drug="{{item}}"
+        bindtap="onSelectDrug"
+      >
+        <text class="result-name">{{item.generic_name}}</text>
+        <text class="result-brand">{{item.brand_name}} · {{item.category}}</text>
+      </view>
+    </view>
+    <view wx:if="{{selectedDrug}}" class="selected-drug">
+      <text class="selected-label">已选：</text>
+      <text class="selected-name">{{selectedDrug.generic_name}}（{{selectedDrug.brand_name}}）</text>
+    </view>
+  </view>
+
+  <!-- 服药计划 -->
+  <view class="section" wx:if="{{selectedDrug}}">
+    <text class="section-title">服药计划</text>
+
+    <view class="form-row">
+      <text class="label">每次剂量</text>
+      <input
+        class="input dosage-input"
+        type="digit"
+        placeholder="如：100"
+        data-field="dosage"
+        bindinput="onFormChange"
+        value="{{form.dosage}}"
+      />
+      <picker
+        class="unit-picker"
+        mode="selector"
+        range="{{dosageUnits}}"
+        value="{{dosageUnitIndex}}"
+        bindchange="onUnitChange"
+      >
+        <view class="picker-val unit-val">{{form.dosage_unit}}</view>
+      </picker>
+    </view>
+
+    <view class="form-row">
+      <text class="label">每日次数</text>
+      <picker mode="selector" range="{{[1,2,3]}}" bindchange="onFrequencyChange">
+        <view class="picker-val">{{form.frequency}} 次/天</view>
+      </picker>
+    </view>
+
+    <view class="form-row">
+      <text class="label">服药时段</text>
+      <picker mode="selector" range="{{['早间','午间','晚间']}}" bindchange="onSlotChange">
+        <view class="picker-val">
+          {{form.time_of_day === 'morning' ? '早间' : form.time_of_day === 'afternoon' ? '午间' : '晚间'}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-row">
+      <text class="label">具体时间</text>
+      <picker mode="time" bindchange="onFormChange" data-field="time_point" value="{{form.time_point}}">
+        <view class="picker-val">{{form.time_point}}</view>
+      </picker>
+    </view>
+
+    <view class="form-row">
+      <text class="label">开始日期</text>
+      <picker mode="date" bindchange="onFormChange" data-field="start_date" value="{{form.start_date}}">
+        <view class="picker-val">{{form.start_date}}</view>
+      </picker>
+    </view>
+
+    <view class="form-row">
+      <text class="label">结束日期</text>
+      <picker mode="date" bindchange="onFormChange" data-field="end_date" value="{{form.end_date}}">
+        <view class="picker-val">{{form.end_date || '长期服用'}}</view>
+      </picker>
+    </view>
+
+    <button class="check-btn" bindtap="onCheckConflict">检测药物冲突</button>
+    <button class="submit-btn" loading="{{submitting}}" bindtap="onSubmit">确认添加</button>
+  </view>
+
+  <!-- 冲突弹窗 -->
+  <view wx:if="{{showConflictModal}}" class="modal-mask">
+    <view class="modal">
+      <text class="modal-title">药物冲突检测结果</text>
+
+      <view wx:if="{{conflictResult.allergy_warnings.length > 0}}" class="allergy-warn">
+        <text class="warn-title">⚠️ 过敏警告</text>
+        <view wx:for="{{conflictResult.allergy_warnings}}" wx:key="drug_id">
+          <text>{{item.drug_name}} 与您的过敏记录【{{item.matched_allergen}}】匹配</text>
+        </view>
+      </view>
+
+      <view wx:if="{{conflictResult.conflicts.length > 0}}">
+        <view wx:for="{{conflictResult.conflicts}}" wx:key="drug_a_id" class="conflict-item">
+          <text class="conflict-severity severity-{{item.severity}}">{{item.severity === 'high' ? '高危' : item.severity === 'medium' ? '中度' : '轻微'}}</text>
+          <text class="conflict-text">{{item.drug_a_name}} + {{item.drug_b_name}}</text>
+          <text class="conflict-warn">{{item.warning_text}}</text>
+          <text class="conflict-advice">建议：{{item.advice}}</text>
+        </view>
+      </view>
+
+      <view wx:if="{{conflictResult.conflicts.length === 0 && conflictResult.allergy_warnings.length === 0}}">
+        <text class="no-conflict">✅ 未检测到冲突，可以安全添加</text>
+      </view>
+
+      <button class="modal-close" bindtap="onCloseModal">关闭</button>
+    </view>
+  </view>
+</view>
